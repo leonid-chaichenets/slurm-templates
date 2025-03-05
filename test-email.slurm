@@ -5,7 +5,8 @@
 #SBATCH --mem=1gb
 #SBATCH -p dev_single
 
-#SBATCH --mail-user=$SLURM_EMAIL
+# To protect email addresses and to not put them literally into this script,
+# export SLURM_EMAIL and call sbatch --mail-user=$SLURM_EMAIL <script>.
 #SBATCH --mail-type=START,END
 
 pyenv versions
