@@ -16,6 +16,8 @@ slurm_tasks_per_node = os.getenv("SLURM_TASKS_PER_NODE", "1")
 slurm_node_id = int(os.getenv("SLURM_NODEID", "0"))
 # Zero-based index of the current task on the current node, e.g. '0'.
 slurm_local_id = int(os.getenv("SLURM_LOCALID", "0"))
+# Zero-based global task index, e.g. '0'. Currently only used for introspection purposes.
+slurm_proc_id = int(os.getenv("SLURM_PROCID", "0"))
 
 # Unpack the nodelist and export it to SLURM_JOB_HOSTNAMES environment variable.
 try:
@@ -55,7 +57,7 @@ current_worker_index = sum(tasks_per_node[:slurm_node_id]) + slurm_local_id
 # Construct and export TF_CONFIG
 tf_config = {
     "cluster": {
-        "worker": workers  # List of all worker addresses with unique ports
+        "worker": workers
     },
     "task": {
         "type": "worker",
@@ -65,4 +67,4 @@ tf_config = {
 os.environ["TF_CONFIG"] = json.dumps(tf_config)
 
 print(f"TF_CONFIG set for worker {current_worker_index}: {json.dumps(tf_config, indent=2)}")
-print(f"For comparison: our global id is {os.environ['SLURM_PROCID']} and our calculated index is {current_worker_index}")
+print(f"For comparison: our global id is {slurm_proc_id} and our calculated index is {current_worker_index}")
