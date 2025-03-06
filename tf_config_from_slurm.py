@@ -9,7 +9,7 @@ from subprocess import check_output
 # Compressed list of nodes, e.g. 'node[0-2],node5' for ['node0', 'node1', 'node2', 'node5']
 slurm_nodelist = os.getenv("SLURM_JOB_NODELIST")
 # Compressed list of number of tasks on all nodes, e.g. '2(x2), 1' for [2, 2, 1]. Same order as in SLURM_JOB_NODELIST.
-slurm_tasks_per_node = os.getenv("SLURM_TASKS_PER_NODE", "1"))
+slurm_tasks_per_node = os.getenv("SLURM_TASKS_PER_NODE")
 # Zero-based index of the current node in SLURM_JOB_NODELIST, e.g. '0'.
 slurm_node_id = int(os.getenv("SLURM_NODEID"))
 # Zero-based index of the current task on the current node, e.g. '0'.
