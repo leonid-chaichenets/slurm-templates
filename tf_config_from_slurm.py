@@ -5,15 +5,16 @@ import os
 import re
 from subprocess import check_output
 
-# Get Slurm variables. All of them are supposed to be set by the Slurm controller according to '$ man sbatch'.
+# Get Slurm variables. All of them are supposed to be set by the Slurm controller according to '$ man sbatch'. Hence,
+# the default values are set correctly, if running under slurm. Otherwise they will result in a single worker setup.
 # Compressed list of nodes, e.g. 'node[0-2],node5' for ['node0', 'node1', 'node2', 'node5']
-slurm_nodelist = os.getenv("SLURM_JOB_NODELIST")
+slurm_nodelist = os.getenv("SLURM_JOB_NODELIST", "localhost")
 # Compressed list of number of tasks on all nodes, e.g. '2(x2), 1' for [2, 2, 1]. Same order as in SLURM_JOB_NODELIST.
-slurm_tasks_per_node = os.getenv("SLURM_TASKS_PER_NODE")
+slurm_tasks_per_node = os.getenv("SLURM_TASKS_PER_NODE", "1")
 # Zero-based index of the current node in SLURM_JOB_NODELIST, e.g. '0'.
-slurm_node_id = int(os.getenv("SLURM_NODEID"))
+slurm_node_id = int(os.getenv("SLURM_NODEID", "0"))
 # Zero-based index of the current task on the current node, e.g. '0'.
-slurm_local_id = int(os.getenv("SLURM_LOCALID"))
+slurm_local_id = int(os.getenv("SLURM_LOCALID", "0"))
 
 # Unpack the nodelist and export it to SLURM_JOB_HOSTNAMES environment variable.
 try:
