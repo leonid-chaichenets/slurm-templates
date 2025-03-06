@@ -45,7 +45,7 @@ port_offset = 12345
 workers = []
 for (i, host) in enumerate(hostnames):
     for j in range(tasks_per_node[i]):
-        port = base_offset + j
+        port = port_offset + j
         workers.append(f"{host}:{port}")
 
 # Calculate of index.
